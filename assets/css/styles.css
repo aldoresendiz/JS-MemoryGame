@@ -3,13 +3,18 @@
   https://commons.wikimedia.org/wiki/File:Fabulous_Fred_by_Mego_Corporation,_Made_In_Japan,_Copyright_1980_%28Electronic_Handheld_Game%29_Choice_Of_9_Games.jpg
 */
 
-
 @import url('https://fonts.googleapis.com/css2?family=Fuggles&family=Newsreader:opsz,wght@6..72,200&display=swap');
 
 #paint-info {
   font-family: 'Fuggles', cursive;
   font-family: 'Newsreader', serif;
   font-size: 8em;
+}
+
+#btn-start {
+  /* font-family: 'Fuggles', cursive;*/
+  font-family: 'Newsreader', serif;
+  font-size: 4em;
 }
 
 body {
@@ -39,6 +44,11 @@ body {
   transition: transform .2s cubic-bezier(0.175, 0.885, 0.32, 1.275);
   cursor: pointer;
 } */
+
+div img {
+  height:200px;
+  width:220px;
+}
 
 div img:active {
   transform: rotate(15deg) scale(.9);
