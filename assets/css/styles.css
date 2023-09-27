@@ -1,0 +1,49 @@
+/* 
+  All images are protected and copyright by the respective owners. Credits below
+  https://commons.wikimedia.org/wiki/File:Fabulous_Fred_by_Mego_Corporation,_Made_In_Japan,_Copyright_1980_%28Electronic_Handheld_Game%29_Choice_Of_9_Games.jpg
+*/
+
+
+@import url('https://fonts.googleapis.com/css2?family=Fuggles&family=Newsreader:opsz,wght@6..72,200&display=swap');
+
+#paint-info {
+  font-family: 'Fuggles', cursive;
+  font-family: 'Newsreader', serif;
+  font-size: 8em;
+}
+
+body {
+  display: grid;
+  place-items: center;
+}
+
+/* .container {
+  width: 500px;
+  height: 350px;
+  background-color: #EEE;
+  border: 5px solid #333;
+  overflow: hidden;
+  display: grid;
+  place-items: center;
+  align-items: center;
+  align-content: center;
+  justify-content: center;
+} */
+
+/* .container img {
+  width: 100px;
+  border-radius: 50%;
+  background-color: #FFF;
+  padding: 40px;
+  transform: rotate(15deg);
+  transition: transform .2s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+  cursor: pointer;
+} */
+
+div img:active {
+  transform: rotate(15deg) scale(.9);
+}
+
+div img:hover {
+  transform: rotate(-2deg) scale(1.2);
+}

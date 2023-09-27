@@ -31,6 +31,7 @@ function removeOpacity(event) {
 }
 
 function getProductInfo(paintColor) {
+    return;
     let price = 0;
     let colorName;
     
@@ -80,6 +81,7 @@ function getProductInfo(paintColor) {
 
     function updatePrice(colorName, price)
     {       
+        return;
         // display price
         let colorPrice = document.getElementById('color-price'); // select element with corresponding id
         colorPrice.textContent = price;
