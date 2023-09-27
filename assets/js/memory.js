@@ -22,9 +22,9 @@ let doReMiFaSo = [
     {pn: 'pn9', duration: defDuration, frequency: 261.63},
   ];
 
-resetGame();
+setDefaultValues();
 
-function resetGame() {
+function setDefaultValues() {
     currentLevel = 1;
     maxLevel = 1;
     currentGame = [];
@@ -36,17 +36,23 @@ function resetGame() {
     })
 }
 
+function startStopGame() {
+    setDefaultValues();
+    gameInProgress = !gameInProgress;
+    console.log(gameInProgress);
+}
+
 function configureListeners() {
     let images = document.querySelectorAll('img');
     images.forEach((i) => {
         document.getElementById(i.id).addEventListener('click', playSoundButton, false);
     })
     let boton = document.querySelector('#btn-start');
-    boton.addEventListener('click', resetGame, false);
+    boton.addEventListener('click', startStopGame, false);
 }
 
 function playSoundButton(event) {
-    // if (!gameInProgress) return;
+    if (!gameInProgress) return;
     buttonClicked = event.target.id;
     doReMiFaSo.forEach((note) => {
     if (note.pn == buttonClicked)
