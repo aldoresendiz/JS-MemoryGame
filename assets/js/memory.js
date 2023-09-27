@@ -2,23 +2,27 @@
 let currentLevel = 1;
 let maxLevel = 1;
 //define array with queue of buttons to follow
-let currentGame = []
+let currentGame = [];
 // currentPlayer 0:Computer, 1:User
 let currentPlayer = 0;
+let gameInProgress = false;
 // configuration sounds
 let tempo = 100; //100 beats per minute is the default
+let defDuration = 0.5; // 0.5 is the default
 
-const doReMiFaSo = [
-    {note: "C4", duration: 0.5, frequency: 261.63, boton: 'pn1'},
-    {note: "D4", duration: 0.5, frequency: 293.66, boton: 'pn2'},
-    {note: "E4", duration: 0.5, frequency: 329.63, boton: 'pn3'},
-    {note: "F4", duration: 0.5, frequency: 349.23, boton: 'pn4'},
-    {note: "G4", duration: 0.5, frequency: 392.00, boton: 'pn5'},
-    {note: "A4", duration: 0.5, frequency: 440.00, boton: 'pn6'},
-    {note: "B4", duration: 0.5, frequency: 493.88, boton: 'pn7'},
-    {note: "C5", duration: 0.5, frequency: 523.25, boton: 'pn8'},
-    {note: "C4", duration: 0.5, frequency: 261.63, boton: 'pn9'},
+let doReMiFaSo = [
+    {pn: 'pn1', duration: defDuration, frequency: 261.63},
+    {pn: 'pn2', duration: defDuration, frequency: 293.66},
+    {pn: 'pn3', duration: defDuration, frequency: 329.63},
+    {pn: 'pn4', duration: defDuration, frequency: 349.23},
+    {pn: 'pn5', duration: defDuration, frequency: 392.00},
+    {pn: 'pn6', duration: defDuration, frequency: 440.00},
+    {pn: 'pn7', duration: defDuration, frequency: 493.88},
+    {pn: 'pn8', duration: defDuration, frequency: 523.25},
+    {pn: 'pn9', duration: defDuration, frequency: 261.63},
   ];
+
+resetGame();
 
 function resetGame() {
     currentLevel = 1;
@@ -26,21 +30,26 @@ function resetGame() {
     currentGame = [];
     currentPlayer = 0;
     tempo = 100;
+    defDuration = 0.5
+    doReMiFaSo.forEach((note) => {
+        note.duration = defDuration;
+    })
 }
 
 function configureListeners() {
     let images = document.querySelectorAll('img');
     images.forEach((i) => {
-        document.getElementById(i.id).addEventListener('click', playSound, false);
+        document.getElementById(i.id).addEventListener('click', playSoundButton, false);
     })
     let boton = document.querySelector('#btn-start');
     boton.addEventListener('click', resetGame, false);
 }
 
-function playSound(event) {
+function playSoundButton(event) {
+    // if (!gameInProgress) return;
     buttonClicked = event.target.id;
     doReMiFaSo.forEach((note) => {
-    if (note.boton == buttonClicked)
+    if (note.pn == buttonClicked)
     {
         const context = new (window.AudioContext || window.webkitAudioContext)();
         let waveforms = ["sine", "square", "sawtooth", "triangle"];
@@ -78,65 +87,4 @@ function removeOpacity(event) {
         color.textContent = ''; 
 
     event.preventDefault();
-}
-
-function getProductInfo(paintColor) {
-    return;
-    let price = 0;
-    let colorName;
-    
-    switch (paintColor) {
-        case 'pn1':
-            price = '$14.99';
-            colorName = 'Lime Green';
-            break;
-        case 'pn2':
-            price = '$11.14';
-            colorName = 'Medium Brown';
-            break;
-        case 'pn3':
-            price = '$22.99';
-            colorName = 'Royal Blue';
-            break;
-        case 'pn4':
-            price = '$13.42';
-            colorName = 'Solid Red';
-            break;
-        case 'pn5':
-            price = '$21.98';
-            colorName = 'Solid White';
-            break;
-        case 'pn6':
-            price = '$4.99';
-            colorName = 'Solid Black';
-            break;
-        case 'pn7':
-            price = '$8.22';
-            colorName = 'Solid Cyan';
-            break;
-        case 'pn8':
-            price = '$11.99';
-            colorName = 'Solid Purple';
-            break;   
-        case 'pn9':
-            price = '$14.99';
-            colorName = 'Solid Yellow';
-            break;
-          default:
-            break;
-    }
-    if (price !== 0) {
-        updatePrice(colorName, price);
-    }
-
-    function updatePrice(colorName, price)
-    {       
-        return;
-        // display price
-        let colorPrice = document.getElementById('color-price'); // select element with corresponding id
-        colorPrice.textContent = price;
-        //display color name
-        let color = document.getElementById('color-name');// select element with corresponding id
-        color.textContent = colorName;
-    } 
 }
