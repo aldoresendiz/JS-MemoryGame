@@ -2,58 +2,128 @@
 let currentLevel = 1;
 let maxLevel = 1;
 //define array with queue of buttons to follow
-let currentGame = [];
+let computerGame = [];
+let userGame = [];
+let buttonToPlay = '';
 // currentPlayer 0:Computer, 1:User
 let currentPlayer = 0;
 let gameInProgress = false;
+let interval = 0;
 // configuration sounds
 let tempo = 100; //100 beats per minute is the default
 let defDuration = 0.5; // 0.5 is the default
 
 let doReMiFaSo = [
-    {pn: 'pn1', duration: defDuration, frequency: 261.63},
-    {pn: 'pn2', duration: defDuration, frequency: 293.66},
-    {pn: 'pn3', duration: defDuration, frequency: 329.63},
-    {pn: 'pn4', duration: defDuration, frequency: 349.23},
-    {pn: 'pn5', duration: defDuration, frequency: 392.00},
-    {pn: 'pn6', duration: defDuration, frequency: 440.00},
-    {pn: 'pn7', duration: defDuration, frequency: 493.88},
-    {pn: 'pn8', duration: defDuration, frequency: 523.25},
-    {pn: 'pn9', duration: defDuration, frequency: 261.63},
+    {pn: 'pn1', duration: 0.5, frequency: 261.63},
+    {pn: 'pn2', duration: 0.5, frequency: 293.66},
+    {pn: 'pn3', duration: 0.5, frequency: 329.63},
+    {pn: 'pn4', duration: 0.5, frequency: 349.23},
+    {pn: 'pn5', duration: 0.5, frequency: 392.00},
+    {pn: 'pn6', duration: 0.5, frequency: 440.00},
+    {pn: 'pn7', duration: 0.5, frequency: 493.88},
+    {pn: 'pn8', duration: 0.5, frequency: 523.25},
+    {pn: 'pn9', duration: 0.5, frequency: 261.63},
   ];
+
+  // let doReMiFaSoForComputer = [];
 
 setDefaultValues();
 
 function setDefaultValues() {
     currentLevel = 1;
     maxLevel = 1;
-    currentGame = [];
+    computerGame = [];
+    userGame = [];
     currentPlayer = 0;
     tempo = 100;
     defDuration = 0.5
-    doReMiFaSo.forEach((note) => {
-        note.duration = defDuration;
-    })
+    //doReMiFaSo.forEach((note) => {
+    //     note.duration = defDuration;
+    //})
 }
 
 function startStopGame() {
     setDefaultValues();
     gameInProgress = !gameInProgress;
-    console.log(gameInProgress);
+    let btnStartCaption = document.getElementById('btn-start');
+    btnStartCaption.textContent = gameInProgress ? 'STOP' : 'START';
+    if (gameInProgress)
+    {
+        interval = setInterval(playerTurn, 1000);
+    }
+    else
+    {
+        console.log('game stopped');
+        clearInterval(interval);
+    }
+    // TODO: How to change the color for the caption?
+    // btnStartCaption.style.fontStyle.ba = 'green';
+    // console.log(btnStartCaption.style.fontStyle.color);
 }
+
+// function say() {
+//     console.log('game');
+// }
 
 function configureListeners() {
     let images = document.querySelectorAll('img');
     images.forEach((i) => {
-        document.getElementById(i.id).addEventListener('click', playSoundButton, false);
+        document.getElementById(i.id).addEventListener('click', playerTurn, false);
     })
     let boton = document.querySelector('#btn-start');
     boton.addEventListener('click', startStopGame, false);
 }
 
-function playSoundButton(event) {
+function playerTurn(event) {
     if (!gameInProgress) return;
-    buttonClicked = event.target.id;
+    let response = 200;
+    if (currentPlayer === 0)
+    {
+        const buttonToPush  = 'pn' + Math.trunc((Math.random() * 9) + 1);
+        // document.getElementById("pn1").click(); // https://www.geeksforgeeks.org/make-a-click-event-fire-programmatically-for-a-file-input-element-in-javascript/
+        computerGame.push(buttonToPush);
+        for (i=0; i<=computerGame.length-1;i++)
+        {
+            playSoundButton(computerGame[i]);
+        }
+        console.log('Computer=>' + computerGame);
+        currentPlayer = 1;
+    }
+    else
+    {
+        if (event === undefined) return;
+        buttonClicked = event.target.id;
+        playSoundButton(buttonClicked);
+        if (computerGame.length !== userGame.length)
+        {
+            userGame.push(buttonClicked);
+            for (i=0;i<=userGame.length-1;i++)
+            {
+                if (userGame[i] != computerGame[i])
+                {
+                    response = 400;
+                    break;
+                }
+            }
+        }
+        if (response === 200)
+        {
+            if (computerGame.length === userGame.length)
+            {
+                userGame.length = 0;
+                currentPlayer = 0;
+            }    
+        }
+        else 
+        {
+            console.log('fallaste');
+            startStopGame();
+        }
+    }
+}
+
+function playSoundButton(event) {
+    buttonClicked = event; //.target.id;
     doReMiFaSo.forEach((note) => {
     if (note.pn == buttonClicked)
     {
