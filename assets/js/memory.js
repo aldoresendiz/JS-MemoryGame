@@ -25,7 +25,7 @@ let doReMiFaSo = [
     {pn: 'pn9', duration: 0.5, frequency: 261.63},
   ];
 
-  // let doReMiFaSoForComputer = [];
+let doReMiFaSoForComputer = [];
 
 setDefaultValues();
 
@@ -37,6 +37,7 @@ function setDefaultValues() {
     currentPlayer = 0;
     tempo = 100;
     defDuration = 0.5
+    doReMiFaSoForComputer.length = 0;
     //doReMiFaSo.forEach((note) => {
     //     note.duration = defDuration;
     //})
@@ -49,7 +50,7 @@ function startStopGame() {
     btnStartCaption.textContent = gameInProgress ? 'STOP' : 'START';
     if (gameInProgress)
     {
-        interval = setInterval(playerTurn, 1000);
+        interval = setInterval(whoClicked, 1000);
     }
     else
     {
@@ -61,10 +62,6 @@ function startStopGame() {
     // console.log(btnStartCaption.style.fontStyle.color);
 }
 
-// function say() {
-//     console.log('game');
-// }
-
 function configureListeners() {
     let images = document.querySelectorAll('img');
     images.forEach((i) => {
@@ -74,18 +71,37 @@ function configureListeners() {
     boton.addEventListener('click', startStopGame, false);
 }
 
+function whoClicked(event) {
+    if (currentPlayer === 0) {
+        const buttonToPush  = 'pn' + Math.trunc((Math.random() * 9) + 1);
+        computerGame.push(buttonToPush);
+        document.getElementById(buttonToPush).click();
+        playSoundFromComputer(buttonToPush);
+        setTimeout(removeX, 1000)
+        // playerTurn(event);
+    }
+    else {
+
+    }
+}
+
 function playerTurn(event) {
     if (!gameInProgress) return;
     let response = 200;
+    // activaOpacity(event);
     if (currentPlayer === 0)
     {
-        const buttonToPush  = 'pn' + Math.trunc((Math.random() * 9) + 1);
-        // document.getElementById("pn1").click(); // https://www.geeksforgeeks.org/make-a-click-event-fire-programmatically-for-a-file-input-element-in-javascript/
-        computerGame.push(buttonToPush);
-        for (i=0; i<=computerGame.length-1;i++)
-        {
-            playSoundButton(computerGame[i]);
+        if (!this.classList.contains('dim')) {
+            this.classList.add('dim');
+            console.log(this.classList);
         }
+        // setTimeout(() => {
+        //     if (this.classList.contains('dim')) {
+        //         this.classList.remove('dim');
+        //     }
+        //     console.log('remove');
+        //     console.log('remove 2');
+        // }, 1000)
         console.log('Computer=>' + computerGame);
         currentPlayer = 1;
     }
@@ -122,6 +138,73 @@ function playerTurn(event) {
     }
 }
 
+function removeX() {
+    //console.log(document.querySelector('.dim'));
+    let xxxx = document.querySelector('.dim');
+    if (xxxx.classList.contains('dim')) {
+        xxxx.classList.remove('dim');
+    }
+}
+
+function playSoundFromComputer(buttonToPush) {
+    var context = new (window.AudioContext || window.webkitAudioContext)();
+    if (doReMiFaSoForComputer.length === 0)
+    {
+        doReMiFaSoForComputer.push({note: buttonToPush, start: 0, duration: 1});
+    }
+    else
+    {
+        let previousStart = doReMiFaSoForComputer[doReMiFaSoForComputer.length-1].start + 1;
+        doReMiFaSoForComputer.push({note: buttonToPush, start: previousStart, duration: 1});
+    }
+    // console.log(doReMiFaSoForComputer);
+    
+    // var tempo = 100; // beats per minute
+    var quarterNoteTime = 60 / tempo;
+    
+    doReMiFaSoForComputer.forEach(function(note) {
+      var startTime = note.start * quarterNoteTime;
+      var endTime = startTime + note.duration * quarterNoteTime;
+    
+      var oscillator = context.createOscillator();
+      oscillator.type = "sine";
+    
+      var noteFrequency = getFrequency(note.note);
+      oscillator.frequency.value = noteFrequency;
+    
+      oscillator.connect(context.destination);
+      oscillator.start(context.currentTime + startTime);
+      oscillator.stop(context.currentTime + endTime);
+
+      // setTimeout(removeX, 1000)
+
+    });
+    
+    function getFrequency(note) {
+      switch (note) {
+        case "pn1":
+        case "pn9":
+          return 261.63;
+        case "pn2":
+          return 293.66;
+        case "pn3":
+          return 329.63;
+        case "pn4":
+          return 349.23;
+        case "pn5":
+          return 392.00;
+        case "pn6":
+          return 440.00;
+        case "pn7":
+          return 493.88;
+        case "pn8":
+          return 523.25;
+        default:
+          return 0;
+      }
+    }
+}
+
 function playSoundButton(event) {
     buttonClicked = event; //.target.id;
     doReMiFaSo.forEach((note) => {
@@ -129,7 +212,7 @@ function playSoundButton(event) {
     {
         const context = new (window.AudioContext || window.webkitAudioContext)();
         let waveforms = ["sine", "square", "sawtooth", "triangle"];
-        var quarterNoteTime = 60 / tempo; //60 is the default
+        var quarterNoteTime = 6 / 10;
         var endTime = note.duration * quarterNoteTime;
         var oscillator = context.createOscillator();
         oscillator.type = "sine";

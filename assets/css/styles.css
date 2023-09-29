@@ -50,10 +50,14 @@ div img {
   width:220px;
 }
 
-div img:active {
+/*div img:active {
   transform: rotate(15deg) scale(.9);
-}
+}*/
 
 div img:hover {
   transform: rotate(-2deg) scale(1.2);
+}
+
+.dim {
+  opacity: 0.1555;
 }
