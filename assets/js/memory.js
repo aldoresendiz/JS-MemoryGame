@@ -46,9 +46,6 @@ function setDefaultValues() {
     tempo = 100;
     defDuration = 0.5
     doReMiFaSoForComputer.length = 0;
-    //doReMiFaSo.forEach((note) => {
-    //     note.duration = defDuration;
-    //})
 }
 
 function startStopGame() {
@@ -56,6 +53,7 @@ function startStopGame() {
     gameInProgress = !gameInProgress;
     let btnStartCaption = document.getElementById('btn-start');
     btnStartCaption.textContent = gameInProgress ? 'STOP' : 'START';
+    btnStartCaption.style.color = gameInProgress ? 'red' : 'green';
     if (gameInProgress)
     {
         interval = setInterval(whoClicked, 1000);
@@ -69,9 +67,6 @@ function startStopGame() {
         clearInterval(interval);
         clearInterval(intervalTurns);
     }
-    // TODO: How to change the color for the caption?
-    // btnStartCaption.style.fontStyle.ba = 'green';
-    // console.log(btnStartCaption.style.fontStyle.color);
 }
 
 function configureListeners() {
