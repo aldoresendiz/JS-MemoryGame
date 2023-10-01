@@ -12,11 +12,7 @@
 
 <body onload='configureListeners()'>
     <div align="center">
-        <h1 id="paint-info">Memory Game</h1>
-        <div id="paint-info-container">
-            <h2 id="color-name"></h2>
-            <h2 id="color-price"></h2>
-        </div>
+        <h1 id="game-info">Memory Game</h1>
 
         <div>
             <img id="pn1" src="./assets/colors/button-1-red.jpeg" alt="Button 1 Red" />
@@ -36,12 +32,16 @@
             <img id="pn5" src="./assets/colors/button-5-blue.jpeg" alt="Button 5 Blue" />
         </div>
 
-        <div id="paint-info-container1">
-            <h2 id="color-name1"></h2>
-            <h2 id="color-price1"></h2>
-        </div>
         <div>
             <button type="button" id="btn-start">START</button>
+        </div>
+
+        <div id="game-info-container">
+            <h2 id="game-level">Level</h2>
+            <h2 id="game-score">Score</h2>
+        </div>
+        <div>
+            <p id="who-turn"></p>
         </div>
 
         <script src="./assets/js/memory.js"></script>

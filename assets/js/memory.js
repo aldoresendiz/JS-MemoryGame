@@ -1,14 +1,19 @@
 // define levels
 let currentLevel = 1;
+let currentScore = 0;
 let maxLevel = 1;
 //define array with queue of buttons to follow
 let computerGame = [];
 let userGame = [];
 let buttonToPlay = '';
 // currentPlayer 0:Computer, 1:User
+let intervalTurns = 0;
 let currentPlayer = 0;
+let whosTurn = 0;
 let gameInProgress = false;
 let interval = 0;
+let levelCaption = document.getElementById('game-level');
+let scoreCaption = document.getElementById('game-score');
 // configuration sounds
 let tempo = 100; //100 beats per minute is the default
 let defDuration = 0.5; // 0.5 is the default
@@ -30,11 +35,14 @@ let doReMiFaSoForComputer = [];
 setDefaultValues();
 
 function setDefaultValues() {
+    levelCaption.textContent = "";
+    scoreCaption.textContent = "";
     currentLevel = 1;
     maxLevel = 1;
     computerGame = [];
     userGame = [];
     currentPlayer = 0;
+    whosTurn = 0;
     tempo = 100;
     defDuration = 0.5
     doReMiFaSoForComputer.length = 0;
@@ -51,11 +59,15 @@ function startStopGame() {
     if (gameInProgress)
     {
         interval = setInterval(whoClicked, 1000);
+        intervalTurns = setInterval(playersTurn, 1000);
     }
     else
     {
-        console.log('game stopped');
+        let gameStatus = document.getElementById('who-turn');
+        gameStatus.textContent = "GAME OVER";
+        gameStatus.style.color = "red";
         clearInterval(interval);
+        clearInterval(intervalTurns);
     }
     // TODO: How to change the color for the caption?
     // btnStartCaption.style.fontStyle.ba = 'green';
@@ -85,9 +97,29 @@ function whoClicked(event) {
     }
 }
 
+function playersTurn() {
+    let updateTurn = document.getElementById('who-turn');
+    if (!gameInProgress)
+    {
+        updateTurn.textContent = "";
+        return;
+    }
+    if (currentPlayer === 1)
+    {
+        updateTurn.textContent = "Your play";
+        updateTurn.style.color = "green";
+    }
+    else
+    {
+        updateTurn.textContent = "My Play";
+        updateTurn.style.color = "red";
+    }
+}
+
 function playerTurn(event) {
     if (!gameInProgress) return;
     let response = 200;
+    playersTurn();
     // activaOpacity(event);
     if (currentPlayer === 0)
     {
@@ -95,13 +127,6 @@ function playerTurn(event) {
             this.classList.add('dim');
             console.log(this.classList);
         }
-        // setTimeout(() => {
-        //     if (this.classList.contains('dim')) {
-        //         this.classList.remove('dim');
-        //     }
-        //     console.log('remove');
-        //     console.log('remove 2');
-        // }, 1000)
         console.log('Computer=>' + computerGame);
         currentPlayer = 1;
     }
@@ -126,13 +151,17 @@ function playerTurn(event) {
         {
             if (computerGame.length === userGame.length)
             {
+                currentLevel = Math.trunc(computerGame.length / 7) + 1;
+                levelCaption.textContent = `Level: ${currentLevel}`;
+                currentScore = computerGame.length;
+                scoreCaption.textContent = `Score: ${currentScore}`;
                 userGame.length = 0;
                 currentPlayer = 0;
             }    
         }
         else 
         {
-            console.log('fallaste');
+            console.log('gameOver');
             startStopGame();
         }
     }

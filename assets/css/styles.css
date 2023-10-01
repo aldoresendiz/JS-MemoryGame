@@ -6,7 +6,7 @@
 @import url('https://fonts.googleapis.com/css2?family=Fuggles&family=Newsreader:opsz,wght@6..72,200&display=swap');
 @import url('https://fonts.googleapis.com/css2?family=Dela+Gothic+One&family=Fuggles&family=Newsreader:opsz,wght@6..72,200&display=swap');
 
-#paint-info {
+#game-info {
   font-family: 'Fuggles', cursive;
   font-family: 'Newsreader', serif;
   font-size: 8em;
@@ -60,4 +60,9 @@ div img:hover {
 
 .dim {
   opacity: 0.1555;
+}
+
+#who-turn, #game-level, #game-score {
+  color: blue;
+  font-size: 3em;
 }
