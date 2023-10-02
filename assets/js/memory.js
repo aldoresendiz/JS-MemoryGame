@@ -49,9 +49,9 @@ function setDefaultValues() {
     elementToPerform = 0;
     buttonToPlayByComputer = '';
     buttonClickedByUser = '';
-    let gameOver = document.getElementById('game-over');
-    gameOver.textContent = '';
-    gameOver.style.zIndex = 1;
+    // let gameOver = document.getElementById('game-over');
+    //gameOver.textContent = '';
+    //gameOver.style.zIndex = 1;
      updateScore();
     // levelCaption.textContent = '';
     // scoreCaption.textContent = '';
@@ -60,7 +60,10 @@ function setDefaultValues() {
 function configureListeners() {
     let images = document.querySelectorAll('img');
     images.forEach((i) => {
-        document.getElementById(i.id).addEventListener('click', clickButton, false);
+        if (i.id !== 'game-over') 
+        {
+            document.getElementById(i.id).addEventListener('click', clickButton, false);
+        }
     })
     let botonStart = document.querySelector('#btn-start');
     botonStart.addEventListener('click', startStopGame, false);
@@ -75,6 +78,12 @@ function startStopGame() {
     {
         intervalUpdateTurns = setInterval(displayTurn, 1);
         checkComputerStep = setInterval(controlComputer, 1);
+        let btn9 = document.getElementById('pn9');
+        btn9.src = './assets/colors/button-9-pink.jpeg';
+        // gameOver.setAttribute('hidden', 'hidden');
+        // gameOver.textContent = 'GAME OVER';
+        // gameOver.style.zIndex = -1;
+    
     }
     else
     {
@@ -102,8 +111,8 @@ function displayTurn()
     }
     else
     {
-        displayTurn.textContent = 'GAME OVER';
-        displayTurn.style.color = 'red';
+        displayTurn.textContent = '';
+        // displayTurn.style.color = 'red';
     }
     // console.log(currentPlayer);
 }
@@ -297,9 +306,14 @@ function userMakesMistake()
 {
     playGameOver();
     startStopGame();
-    let gameOver = document.getElementById('game-over');
-    gameOver.textContent = 'GAME OVER';
-    gameOver.style.zIndex = 1;
+    // let gameOver = document.getElementById('game-over');
+    let bn9 = document.getElementById('pn9');
+    bn9.src = '../assets/colors/game-over.jpeg';
+    // pn9.zIndex = -1;
+    // gameOver.setAttribute('hidden', 'hidden');
+    // gameOver.removeAttribute('hidden');
+    // gameOver.textContent = 'GAME OVER';
+    //gameOver.style.zIndex = 1;
     console.log('caminaste');
 }
 
