@@ -6,10 +6,19 @@
   https://www.entonbiba.com/codes/play-do-re-mi-fa-so-song-with-web-audio
   Grid taken from Activity 8 from the course JavaScript
   Game Over image taken from https://pngimg.com/image/83375
+  Colors and references from the mozilla developers website and W3schools
+  https://developer.mozilla.org/en-US/docs/Web/HTML
+  https://developer.mozilla.org/en-US/docs/Web/CSS
+  https://developer.mozilla.org/en-US/docs/Web/JavaScript
+  https://www.w3schools.com/css/css3_variables_javascript.asp
 */
 
 @import url('https://fonts.googleapis.com/css2?family=Fuggles&family=Newsreader:opsz,wght@6..72,200&display=swap');
 @import url('https://fonts.googleapis.com/css2?family=Dela+Gothic+One&family=Fuggles&family=Newsreader:opsz,wght@6..72,200&display=swap');
+
+:root {
+  --opacity: 0.1555;
+}
 
 h2 {
   width:40%;
@@ -35,6 +44,7 @@ h2 {
 body {
   display: grid;
   place-items: center;
+  background-color:beige;
 }
 
 div img {
@@ -43,11 +53,12 @@ div img {
 }
 
 div img:hover {
-  transform: rotate(-2deg) scale(1.2);
+  /* transform: rotate(-2deg) scale(1.2);*/
+  opacity: var(--opacity); /*0.1555;*/
 }
 
 .dim {
-  opacity: 0.1555;
+  opacity: var(--opacity); /*0.1555;*/
 }
 
 #who-turn, #game-level, #game-score {

@@ -3,6 +3,7 @@
     let intervalUpdateTurns = 0;
     let checkComputerStep = 0;
     let computerStep = -1 // Pick a button, -2 adds button to the queue
+    let opacity = document.querySelector(':root');
     // define levels and score variables
     let userLevel = 1;
     let userScore = 0;
@@ -111,6 +112,7 @@ function startStopGame() {
     {
         intervalUpdateTurns = setInterval(displayTurn, 1);
         checkComputerStep = setInterval(controlComputer, 1);
+        opacity.style.setProperty('--opacity', '0.1555')
         // let btn9 = document.getElementById('pn9');
         // btn9.src = './assets/colors/button-9-pink.jpeg';
         // gameOver.setAttribute('hidden', 'hidden');
@@ -120,6 +122,7 @@ function startStopGame() {
     }
     else
     {
+        opacity.style.setProperty('--opacity', '0')
         clearInterval(intervalUpdateTurns);
         clearInterval(checkComputerStep);
     }
