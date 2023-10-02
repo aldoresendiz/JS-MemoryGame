@@ -1,209 +1,225 @@
-// define levels
-let currentLevel = 1;
-let currentScore = 0;
-let maxLevel = 1;
-//define array with queue of buttons to follow
-let computerGame = [];
-let userGame = [];
-let buttonToPlay = '';
-// currentPlayer 0:Computer, 1:User
-let intervalTurns = 0;
-let currentPlayer = 0;
-let whosTurn = 0;
-let gameInProgress = false;
-let interval = 0;
-let levelCaption = document.getElementById('game-level');
-let scoreCaption = document.getElementById('game-score');
-// configuration sounds
-let tempo = 100; //100 beats per minute is the default
-let defDuration = 0.5; // 0.5 is the default
-
-let doReMiFaSo = [
-    {pn: 'pn1', duration: 0.5, frequency: 261.63},
-    {pn: 'pn2', duration: 0.5, frequency: 293.66},
-    {pn: 'pn3', duration: 0.5, frequency: 329.63},
-    {pn: 'pn4', duration: 0.5, frequency: 349.23},
-    {pn: 'pn5', duration: 0.5, frequency: 392.00},
-    {pn: 'pn6', duration: 0.5, frequency: 440.00},
-    {pn: 'pn7', duration: 0.5, frequency: 493.88},
-    {pn: 'pn8', duration: 0.5, frequency: 523.25},
-    {pn: 'pn9', duration: 0.5, frequency: 261.63},
-  ];
-
-let doReMiFaSoForComputer = [];
+///// Define global variables
+    // miscellaneous variables
+    let intervalUpdateTurns = 0;
+    let checkComputerStep = 0;
+    let computerStep = -1 // Pick a button, -2 adds button to the queue
+    // define levels and score variables
+    let userLevel = 1;
+    let userScore = 0;
+    let maxLevel = 20;
+    let gameInProgress = false;
+    let currentPlayer = 0;
+    //define array with queue of buttons to follow
+    let computerGame = [];
+    let userGame = [];
+    let elementToPerform = 0;
+    let buttonToPlayByComputer = '';
+    let buttonClickedByUser = '';
+    // define sounds for user and sounds for computer
+    let doReMiFaSoUser = [
+        {pn: 'pn1', duration: 0.5, frequency: 261.63},
+        {pn: 'pn2', duration: 0.5, frequency: 293.66},
+        {pn: 'pn3', duration: 0.5, frequency: 329.63},
+        {pn: 'pn4', duration: 0.5, frequency: 349.23},
+        {pn: 'pn5', duration: 0.5, frequency: 392.00},
+        {pn: 'pn6', duration: 0.5, frequency: 440.00},
+        {pn: 'pn7', duration: 0.5, frequency: 493.88},
+        {pn: 'pn8', duration: 0.5, frequency: 523.25},
+        {pn: 'pn9', duration: 0.5, frequency: 261.63},
+    ];
+    let doReMiFaSoComputer = [];
+    // variables to reference level element and score element
+    let levelCaption = document.getElementById('game-level');
+    let scoreCaption = document.getElementById('game-score');
+    let btnStartCaption = document.getElementById('btn-start');
+///// End Define global variables
 
 setDefaultValues();
+configureListeners();
 
 function setDefaultValues() {
-    levelCaption.textContent = "";
-    scoreCaption.textContent = "";
-    currentLevel = 1;
-    maxLevel = 1;
+    computerStep = -1;
+    userLevel = 1;
+    userScore = 0;
     computerGame = [];
     userGame = [];
+    doReMiFaSoComputer = [];
+    // gameInProgress = false;
     currentPlayer = 0;
-    whosTurn = 0;
-    tempo = 100;
-    defDuration = 0.5
-    doReMiFaSoForComputer.length = 0;
-}
-
-function startStopGame() {
-    setDefaultValues();
-    gameInProgress = !gameInProgress;
-    let btnStartCaption = document.getElementById('btn-start');
-    btnStartCaption.textContent = gameInProgress ? 'STOP' : 'START';
-    btnStartCaption.style.color = gameInProgress ? 'red' : 'green';
-    if (gameInProgress)
-    {
-        interval = setInterval(whoClicked, 1000);
-        intervalTurns = setInterval(playersTurn, 1000);
-    }
-    else
-    {
-        let gameStatus = document.getElementById('who-turn');
-        gameStatus.textContent = "GAME OVER";
-        gameStatus.style.color = "red";
-        clearInterval(interval);
-        clearInterval(intervalTurns);
-    }
+    elementToPerform = 0;
+    buttonToPlayByComputer = '';
+    buttonClickedByUser = '';
+    let gameOver = document.getElementById('game-over');
+    gameOver.textContent = '';
+    gameOver.style.zIndex = 1;
+     updateScore();
+    // levelCaption.textContent = '';
+    // scoreCaption.textContent = '';
 }
 
 function configureListeners() {
     let images = document.querySelectorAll('img');
     images.forEach((i) => {
-        document.getElementById(i.id).addEventListener('click', playerTurn, false);
+        document.getElementById(i.id).addEventListener('click', clickButton, false);
     })
-    let boton = document.querySelector('#btn-start');
-    boton.addEventListener('click', startStopGame, false);
+    let botonStart = document.querySelector('#btn-start');
+    botonStart.addEventListener('click', startStopGame, false);
 }
 
-function whoClicked(event) {
-    if (currentPlayer === 0) {
-        const buttonToPush  = 'pn' + Math.trunc((Math.random() * 9) + 1);
-        computerGame.push(buttonToPush);
-        document.getElementById(buttonToPush).click();
-        playSoundFromComputer(buttonToPush);
-        setTimeout(removeX, 1000)
-        // playerTurn(event);
-    }
-    else {
-
-    }
-}
-
-function playersTurn() {
-    let updateTurn = document.getElementById('who-turn');
-    if (!gameInProgress)
+function startStopGame() {
+    setDefaultValues();
+    gameInProgress = !gameInProgress; // if there is a game in progress then stop it else setup the environment for a new game
+    btnStartCaption.textContent = gameInProgress ? 'STOP' : 'START';
+    btnStartCaption.style.color = gameInProgress ? 'red' : 'green';
+    if (gameInProgress)
     {
-        updateTurn.textContent = "";
-        return;
-    }
-    if (currentPlayer === 1)
-    {
-        updateTurn.textContent = "Your play";
-        updateTurn.style.color = "green";
+        intervalUpdateTurns = setInterval(displayTurn, 1);
+        checkComputerStep = setInterval(controlComputer, 1);
     }
     else
     {
-        updateTurn.textContent = "My Play";
-        updateTurn.style.color = "red";
+        clearInterval(intervalUpdateTurns);
+        clearInterval(checkComputerStep);
     }
+    displayTurn();
 }
 
-function playerTurn(event) {
-    if (!gameInProgress) return;
-    let response = 200;
-    playersTurn();
-    // activaOpacity(event);
+function displayTurn() 
+{
+    let displayTurn = document.getElementById('who-turn');
+    if (gameInProgress)
+    {
+        if (currentPlayer === 0)
+        {
+            displayTurn.textContent = 'MY TURN';
+            displayTurn.style.color = 'red';
+        }
+        else
+        {
+            displayTurn.textContent = 'YOUR TURN';
+            displayTurn.style.color = 'green';
+        }
+    }
+    else
+    {
+        displayTurn.textContent = 'GAME OVER';
+        displayTurn.style.color = 'red';
+    }
+    // console.log(currentPlayer);
+}
+
+function controlComputer() 
+{
     if (currentPlayer === 0)
     {
-        if (!this.classList.contains('dim')) {
-            this.classList.add('dim');
-            console.log(this.classList);
-        }
-        console.log('Computer=>' + computerGame);
-        currentPlayer = 1;
-    }
-    else
-    {
-        if (event === undefined) return;
-        buttonClicked = event.target.id;
-        playSoundButton(buttonClicked);
-        if (computerGame.length !== userGame.length)
+        if (computerStep === -1) // Computer must pick a number
         {
-            userGame.push(buttonClicked);
-            for (i=0;i<=userGame.length-1;i++)
+            buttonToPlayByComputer = 'pn' + Math.trunc((Math.random() * 9) + 1);
+            computerStep = -2;
+            console.log(buttonToPlayByComputer);
+        }
+        if (computerStep === -2) /// Computer adds chosen button to its queue
+        {
+            computerGame.push(buttonToPlayByComputer);
+            computerStep = -3;
+            console.log(computerGame);
+        }
+        if (computerStep === -3) /// Computer iluminates its current elementToPerform
+        {
+            computerStep = 0
+            let botonToIluminate = document.getElementById(computerGame[elementToPerform]);
+            if (!botonToIluminate.classList.contains('dim'))
             {
-                if (userGame[i] != computerGame[i])
-                {
-                    response = 400;
-                    break;
-                }
+                botonToIluminate.classList.add('dim');
+            }
+            setTimeout(computerTurnsOnButton, 1000);
+            console.log('play sound for: ',elementToPerform);
+            playSoundFromComputer();
+        }
+        if (computerStep === -4)
+        {
+            computerTurnsOffButton();
+            elementToPerform++;
+            if (elementToPerform<=computerGame.length-1)
+            {
+                computerStep = -3;
+            }
+            else
+            {
+                computerStep = -1;
+                currentPlayer = 1;
+                elementToPerform = 0;
+                console.log('cede el turno');
             }
         }
-        if (response === 200)
+    }
+}
+
+function computerTurnsOffButton() {
+    let botonToIluminate = document.getElementById(computerGame[elementToPerform]);
+    botonToIluminate.classList.remove('dim');
+}
+
+function computerTurnsOnButton()
+{
+    console.log('Iluminate Button', computerGame[elementToPerform]);
+    computerStep = -4;
+    return;
+}
+
+function playButton()
+{
+    console.log('highlight the button')
+    x = -2;
+    return x;
+}
+
+function playSoundFromComputer() {
+    var context = new (window.AudioContext || window.webkitAudioContext)();
+    if (doReMiFaSoComputer.length === 0)
+    {
+        if (currentPlayer === 0)
         {
-            if (computerGame.length === userGame.length)
-            {
-                currentLevel = Math.trunc(computerGame.length / 7) + 1;
-                levelCaption.textContent = `Level: ${currentLevel}`;
-                currentScore = computerGame.length;
-                scoreCaption.textContent = `Score: ${currentScore}`;
-                userGame.length = 0;
-                currentPlayer = 0;
-            }    
+            doReMiFaSoComputer.push({note: computerGame[elementToPerform], start: 0, duration: 1});
         }
         else 
         {
-            console.log('gameOver');
-            startStopGame();
+            doReMiFaSoComputer.push({note:userGame[elementToPerform], start: 0, duration: 1});
         }
-    }
-}
-
-function removeX() {
-    //console.log(document.querySelector('.dim'));
-    let xxxx = document.querySelector('.dim');
-    if (xxxx.classList.contains('dim')) {
-        xxxx.classList.remove('dim');
-    }
-}
-
-function playSoundFromComputer(buttonToPush) {
-    var context = new (window.AudioContext || window.webkitAudioContext)();
-    if (doReMiFaSoForComputer.length === 0)
-    {
-        doReMiFaSoForComputer.push({note: buttonToPush, start: 0, duration: 1});
     }
     else
     {
-        let previousStart = doReMiFaSoForComputer[doReMiFaSoForComputer.length-1].start + 1;
-        doReMiFaSoForComputer.push({note: buttonToPush, start: previousStart, duration: 1});
+        let previousStart = doReMiFaSoComputer[doReMiFaSoComputer.length-1].start + 1;
+        if (currentPlayer === 0)
+        {
+            doReMiFaSoComputer.push({note:computerGame[elementToPerform], start: previousStart, duration: 1});
+        }
+        else
+        {
+            doReMiFaSoComputer.push({note:userGame[elementToPerform], start: previousStart, duration: 1});
+        }
     }
     // console.log(doReMiFaSoForComputer);
-    
-    // var tempo = 100; // beats per minute
+
+    var tempo = 100; // beats per minute
     var quarterNoteTime = 60 / tempo;
-    
-    doReMiFaSoForComputer.forEach(function(note) {
+
+    doReMiFaSoComputer.forEach(function(note) {
       var startTime = note.start * quarterNoteTime;
       var endTime = startTime + note.duration * quarterNoteTime;
-    
+
       var oscillator = context.createOscillator();
       oscillator.type = "sine";
-    
+
       var noteFrequency = getFrequency(note.note);
       oscillator.frequency.value = noteFrequency;
-    
+
       oscillator.connect(context.destination);
       oscillator.start(context.currentTime + startTime);
       oscillator.stop(context.currentTime + endTime);
-
-      // setTimeout(removeX, 1000)
-
+      doReMiFaSoComputer = [];
     });
-    
+
     function getFrequency(note) {
       switch (note) {
         case "pn1":
@@ -229,45 +245,72 @@ function playSoundFromComputer(buttonToPush) {
     }
 }
 
-function playSoundButton(event) {
-    buttonClicked = event; //.target.id;
-    doReMiFaSo.forEach((note) => {
-    if (note.pn == buttonClicked)
-    {
-        const context = new (window.AudioContext || window.webkitAudioContext)();
-        let waveforms = ["sine", "square", "sawtooth", "triangle"];
-        var quarterNoteTime = 6 / 10;
-        var endTime = note.duration * quarterNoteTime;
-        var oscillator = context.createOscillator();
-        oscillator.type = "sine";
-        var noteFrequency = note.frequency;
-        oscillator.frequency.value = noteFrequency;
-        oscillator.connect(context.destination);
-        oscillator.start(context.currentTime);
-        oscillator.stop(context.currentTime + endTime);
-    }
-    });
-};
+function playGameOver() {
+    var context = new (window.AudioContext || window.webkitAudioContext)();
+    var tempo = 100;
+    var quarterNoteTime = 60 / tempo;
+    var startTime = 0 * quarterNoteTime;
+    var endTime = 0 + 2 * quarterNoteTime;
 
-function addOpacity(event) {
-    // add appropriate CSS class
-    if (!this.classList.contains('dim')) {
-        this.classList.add('dim');
-    }
-    getProductInfo(event.target.id);
+    var oscillator = context.createOscillator();
+    oscillator.type = "sine";
+
+    var noteFrequency = 261.63;
+    oscillator.frequency.value = noteFrequency;
+
+    oscillator.connect(context.destination);
+    oscillator.start(context.currentTime + startTime);
+    oscillator.stop(context.currentTime + endTime);
 }
 
-function removeOpacity(event) {
-     //remove appropriate CSS class
-     if (this.classList.contains('dim')) {
-        this.classList.remove('dim');
+function clickButton(event) 
+{
+    if (!gameInProgress) return;
+    if (currentPlayer === 1)
+    {
+        console.log('es mi turno');
+        if (event === undefined) return;
+        const botonClicked = event.target.id;
+        console.log(botonClicked);
+        userGame.push(botonClicked);
+        if (computerGame[elementToPerform] === userGame[elementToPerform])
+        {
+            playSoundFromComputer();
+            elementToPerform++;
+            if (userGame.length === computerGame.length)
+            {
+                updateScore();
+                // levelCaption.textContent = `Level: ${Math.trunc(computerGame.length / 7) + 1}`
+                // scoreCaption.textContent = `Score: ${computerGame.length}`;
+                setTimeout(cedeElTurno, 1000);
+                elementToPerform = 0;
+            }    
+        }
+        else
+        {
+            userMakesMistake();
+        }
     }
+}
 
-    let element = document.getElementById('color-price');
-        element.textContent = '';
-        
-    let color = document.getElementById('color-name');
-        color.textContent = ''; 
+function userMakesMistake() 
+{
+    playGameOver();
+    startStopGame();
+    let gameOver = document.getElementById('game-over');
+    gameOver.textContent = 'GAME OVER';
+    gameOver.style.zIndex = 1;
+    console.log('caminaste');
+}
 
-    event.preventDefault();
+function cedeElTurno() 
+{
+    userGame = [];
+    currentPlayer = 0;
+}
+
+function updateScore()
+{
+    levelCaption.textContent = `Level: ${Math.trunc(computerGame.length / 7) + 1}`
+    scoreCaption.textContent = `Score: ${computerGame.length}`;
 }
