@@ -6,7 +6,9 @@
     // define levels and score variables
     let userLevel = 1;
     let userScore = 0;
-    let maxLevel = 20;
+    let maxLevel = 200;
+    let maxScore = 0;
+    let bestLevel = 0;
     let gameInProgress = false;
     let currentPlayer = 0;
     //define array with queue of buttons to follow
@@ -31,9 +33,38 @@
     // variables to reference level element and score element
     let levelCaption = document.getElementById('game-level');
     let scoreCaption = document.getElementById('game-score');
+    let maxScoreCaption = document.getElementById('game-max-score');
+    let bestLevelCaption = document.getElementById('game-max-level');
     let btnStartCaption = document.getElementById('btn-start');
+    let gameColors = [
+        '../assets/colors/',
+        'button-1-red.jpeg',
+        'button-2-yellow.jpeg',
+        'button-3-orange.jpeg',
+        'button-4-green.jpeg',
+        'button-5-blue.jpeg',
+        'button-6-lightblue.jpeg',
+        'button-7-purple.jpeg',
+        'button-8-lightgreen.jpeg',
+        'button-9-pink.jpeg',
+        'game-over.jpeg',
+    ]
+    let imgAlts = [
+        '',
+        'Button 1 Red',
+        'Button 2 Yellow',
+        'Button 3 Orange',
+        'Button 4 Green',
+        'Button 5 Blue',
+        'Button 6 Light Blue',
+        'Button 7 Purple',
+        'Button 8 Light Green',
+        'Button 9 Pink',
+        'Button Game Over'
+    ]
 ///// End Define global variables
 
+resetColors();
 setDefaultValues();
 configureListeners();
 
@@ -49,6 +80,7 @@ function setDefaultValues() {
     elementToPerform = 0;
     buttonToPlayByComputer = '';
     buttonClickedByUser = '';
+    btnStartCaption.style.color = 'green';
     // let gameOver = document.getElementById('game-over');
     //gameOver.textContent = '';
     //gameOver.style.zIndex = 1;
@@ -74,12 +106,13 @@ function startStopGame() {
     gameInProgress = !gameInProgress; // if there is a game in progress then stop it else setup the environment for a new game
     btnStartCaption.textContent = gameInProgress ? 'STOP' : 'START';
     btnStartCaption.style.color = gameInProgress ? 'red' : 'green';
+    resetColors();
     if (gameInProgress)
     {
         intervalUpdateTurns = setInterval(displayTurn, 1);
         checkComputerStep = setInterval(controlComputer, 1);
-        let btn9 = document.getElementById('pn9');
-        btn9.src = './assets/colors/button-9-pink.jpeg';
+        // let btn9 = document.getElementById('pn9');
+        // btn9.src = './assets/colors/button-9-pink.jpeg';
         // gameOver.setAttribute('hidden', 'hidden');
         // gameOver.textContent = 'GAME OVER';
         // gameOver.style.zIndex = -1;
@@ -91,6 +124,27 @@ function startStopGame() {
         clearInterval(checkComputerStep);
     }
     displayTurn();
+}
+
+function resetColors() {
+    let assetsFolder = gameColors[0];
+    console.log(assetsFolder);
+    for (i = 1; i<=9; i++)
+    {
+        let pnX = document.getElementById(`pn${i}`);
+        pnX.src = assetsFolder + gameColors[i];
+        pnX.alt = imgAlts[i];
+        if (pnX.classList.contains('dim'))
+        {
+            pnX.classList.remove('dim');
+        }
+        console.log(pnX);
+        console.log(pnX.src);
+    }
+    // let btn1 = document.getElementById('pn1');
+    // btn1.src = './assets/colors/button-1-red.jpeg';
+    // let btn2 = document.getElementById('pn2');
+    // btn2.src = './assets/colors/button-1-red.jpeg';
 }
 
 function displayTurn() 
@@ -111,8 +165,8 @@ function displayTurn()
     }
     else
     {
-        displayTurn.textContent = '';
-        // displayTurn.style.color = 'red';
+        displayTurn.textContent = '---';
+        displayTurn.style.color = 'blue';
     }
     // console.log(currentPlayer);
 }
@@ -308,7 +362,8 @@ function userMakesMistake()
     startStopGame();
     // let gameOver = document.getElementById('game-over');
     let bn9 = document.getElementById('pn9');
-    bn9.src = '../assets/colors/game-over.jpeg';
+    bn9.src = gameColors[0] + gameColors[10]; //'../assets/colors/game-over.jpeg';
+    bn9.alt = imgAlts[10];
     // pn9.zIndex = -1;
     // gameOver.setAttribute('hidden', 'hidden');
     // gameOver.removeAttribute('hidden');
@@ -325,6 +380,17 @@ function cedeElTurno()
 
 function updateScore()
 {
-    levelCaption.textContent = `Level: ${Math.trunc(computerGame.length / 7) + 1}`
+    let currentLevel = Math.trunc(computerGame.length / 7) + 1;
+    levelCaption.textContent = `Level: ${currentLevel}`; //Math.trunc(computerGame.length / 7) + 1
     scoreCaption.textContent = `Score: ${computerGame.length}`;
+    if (computerGame.length > maxScore)
+    {
+        maxScore = computerGame.length;
+    }
+    if (currentLevel > bestLevel)
+    {
+        bestLevel = currentLevel;
+    }
+    maxScoreCaption.textContent = `Best Score: ${maxScore}`;
+    bestLevelCaption.textContent = `Best Level: ${bestLevel}`;
 }
