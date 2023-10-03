@@ -24,19 +24,27 @@
   - After the game is over the words 'Game Over' are intermitently displayed in the center of the keyboard
 
 # 10/03/2023
+  
   -- Credits Below
+
     All images are copyright by the respective owners. Credits below
     https://commons.wikimedia.org/wiki/File:Fabulous_Fred_by_Mego_Corporation,_Made_In_Japan,_Copyright_1980_%28Electronic_Handheld_Game%29_Choice_Of_9_Games.jpg
+
     Credits for Sounds, animatino and music from the following websites
     https://www.kirupa.com/html5/randomly_generated_sound_web_audio_api.htm
     https://www.entonbiba.com/codes/play-do-re-mi-fa-so-song-with-web-audio
+
     Grid taken from Activity 8 from the course JavaScript
+
     Game Over image taken from https://pngimg.com/image/83375
+
     Documentation to the JavaScript language from the mozilla developers website and W3schools
+
     https://developer.mozilla.org/en-US/docs/Web/HTML
     https://developer.mozilla.org/en-US/docs/Web/CSS
     https://developer.mozilla.org/en-US/docs/Web/JavaScript
     https://www.w3schools.com/css/css3_variables_javascript.asp
+    
   --
 
 
