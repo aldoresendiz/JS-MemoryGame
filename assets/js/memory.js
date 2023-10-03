@@ -1,17 +1,21 @@
 ///// Define global variables
     // miscellaneous variables
+    let intervalGameOver = 0;
     let intervalUpdateTurns = 0;
     let checkComputerStep = 0;
     let computerStep = -1 // Pick a button, -2 adds button to the queue
     let opacity = document.querySelector(':root');
     // define levels and score variables
+    let currentLevel = 0;
     let userLevel = 1;
     let userScore = 0;
     let maxLevel = 200;
     let maxScore = 0;
     let bestLevel = 0;
+    let extraLives = 0;
     let gameInProgress = false;
     let currentPlayer = 0;
+    let gameOverDisplayed = false;
     //define array with queue of buttons to follow
     let computerGame = [];
     let userGame = [];
@@ -69,10 +73,28 @@ resetColors();
 setDefaultValues();
 configureListeners();
 
+function enterGameOverMode() {
+    let bn9 = document.getElementById('pn9');
+    gameOverDisplayed = !gameOverDisplayed
+    if (!gameOverDisplayed)
+    {
+        bn9.src = gameColors[0] + gameColors[10]; //'../assets/colors/game-over.jpeg';
+        bn9.alt = imgAlts[10];
+    }
+    else
+    {
+        bn9.src = gameColors[0] + gameColors[9]; //'../assets/colors/game-over.jpeg';
+        bn9.alt = imgAlts[9];
+    }
+}
+
 function setDefaultValues() {
+    clearInterval(intervalGameOver);
     computerStep = -1;
     userLevel = 1;
     userScore = 0;
+    currentLevel = 0;
+    extraLives = 0;
     computerGame = [];
     userGame = [];
     doReMiFaSoComputer = [];
@@ -110,6 +132,7 @@ function startStopGame() {
     resetColors();
     if (gameInProgress)
     {
+        currentLevel = 1;
         intervalUpdateTurns = setInterval(displayTurn, 1);
         checkComputerStep = setInterval(controlComputer, 1);
         opacity.style.setProperty('--opacity', '0.1555')
@@ -122,6 +145,7 @@ function startStopGame() {
     }
     else
     {
+        currentLevel = 0;
         opacity.style.setProperty('--opacity', '0')
         clearInterval(intervalUpdateTurns);
         clearInterval(checkComputerStep);
@@ -131,7 +155,7 @@ function startStopGame() {
 
 function resetColors() {
     let assetsFolder = gameColors[0];
-    console.log(assetsFolder);
+    // console.log(assetsFolder);
     for (i = 1; i<=9; i++)
     {
         let pnX = document.getElementById(`pn${i}`);
@@ -141,8 +165,8 @@ function resetColors() {
         {
             pnX.classList.remove('dim');
         }
-        console.log(pnX);
-        console.log(pnX.src);
+        // console.log(pnX);
+        // console.log(pnX.src);
     }
     // let btn1 = document.getElementById('pn1');
     // btn1.src = './assets/colors/button-1-red.jpeg';
@@ -182,13 +206,13 @@ function controlComputer()
         {
             buttonToPlayByComputer = 'pn' + Math.trunc((Math.random() * 9) + 1);
             computerStep = -2;
-            console.log(buttonToPlayByComputer);
+            // console.log(buttonToPlayByComputer);
         }
         if (computerStep === -2) /// Computer adds chosen button to its queue
         {
             computerGame.push(buttonToPlayByComputer);
             computerStep = -3;
-            console.log(computerGame);
+            // console.log(computerGame);
         }
         if (computerStep === -3) /// Computer iluminates its current elementToPerform
         {
@@ -199,7 +223,7 @@ function controlComputer()
                 botonToIluminate.classList.add('dim');
             }
             setTimeout(computerTurnsOnButton, 1000);
-            console.log('play sound for: ',elementToPerform);
+            // console.log('play sound for: ',elementToPerform);
             playSoundFromComputer();
         }
         if (computerStep === -4)
@@ -215,7 +239,7 @@ function controlComputer()
                 computerStep = -1;
                 currentPlayer = 1;
                 elementToPerform = 0;
-                console.log('cede el turno');
+                // console.log('cede el turno');
             }
         }
     }
@@ -228,14 +252,14 @@ function computerTurnsOffButton() {
 
 function computerTurnsOnButton()
 {
-    console.log('Iluminate Button', computerGame[elementToPerform]);
+    // console.log('Iluminate Button', computerGame[elementToPerform]);
     computerStep = -4;
     return;
 }
 
 function playButton()
 {
-    console.log('highlight the button')
+    // console.log('highlight the button')
     x = -2;
     return x;
 }
@@ -334,10 +358,10 @@ function clickButton(event)
     if (!gameInProgress) return;
     if (currentPlayer === 1)
     {
-        console.log('es mi turno');
+        // console.log('es mi turno');
         if (event === undefined) return;
         const botonClicked = event.target.id;
-        console.log(botonClicked);
+        // console.log(botonClicked);
         userGame.push(botonClicked);
         if (computerGame[elementToPerform] === userGame[elementToPerform])
         {
@@ -361,18 +385,35 @@ function clickButton(event)
 
 function userMakesMistake() 
 {
+    extraLives--;
     playGameOver();
     startStopGame();
     // let gameOver = document.getElementById('game-over');
     let bn9 = document.getElementById('pn9');
     bn9.src = gameColors[0] + gameColors[10]; //'../assets/colors/game-over.jpeg';
     bn9.alt = imgAlts[10];
-    // pn9.zIndex = -1;
-    // gameOver.setAttribute('hidden', 'hidden');
-    // gameOver.removeAttribute('hidden');
-    // gameOver.textContent = 'GAME OVER';
-    //gameOver.style.zIndex = 1;
-    console.log('caminaste');
+    intervalGameOver = setInterval(enterGameOverMode, 500);
+    // if (extraLives < 0)
+    // {
+    //     playGameOver();
+    //     startStopGame();
+    //     // let gameOver = document.getElementById('game-over');
+    //     let bn9 = document.getElementById('pn9');
+    //     bn9.src = gameColors[0] + gameColors[10]; //'../assets/colors/game-over.jpeg';
+    //     bn9.alt = imgAlts[10];
+    //     // pn9.zIndex = -1;
+    //     // gameOver.setAttribute('hidden', 'hidden');
+    //     // gameOver.removeAttribute('hidden');
+    //     // gameOver.textContent = 'GAME OVER';
+    //     //gameOver.style.zIndex = 1;
+    //     // console.log('caminaste');
+    // }
+    // else
+    // {
+    //     elementToPerform--;
+    //     computerStep = -3;
+    //     currentPlayer = 0;
+    // }
 }
 
 function cedeElTurno() 
@@ -383,9 +424,21 @@ function cedeElTurno()
 
 function updateScore()
 {
-    let currentLevel = Math.trunc(computerGame.length / 7) + 1;
+    if (gameInProgress)
+    {
+        let extraLifeEvery = 7;
+        currentLevel = Math.trunc(computerGame.length / 7) + 1;
+        // console.log('New Level', newLevel, 'Current Level', currentLevel);
+        if (computerGame.length % extraLifeEvery === 0)
+        {
+            extraLives++;
+            // console.log('vida extra', extraLives);
+        }    
+    }
+    // let currentLevel = Math.trunc(computerGame.length / 7) + 1;
     levelCaption.textContent = `Level: ${currentLevel}`; //Math.trunc(computerGame.length / 7) + 1
     scoreCaption.textContent = `Score: ${computerGame.length}`;
+    // console.log('Current Level', currentLevel);
     if (computerGame.length > maxScore)
     {
         maxScore = computerGame.length;
