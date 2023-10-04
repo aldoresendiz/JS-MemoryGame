@@ -122,6 +122,8 @@ function configureListeners() {
         if (i.id !== 'game-over') 
         {
             document.getElementById(i.id).addEventListener('click', clickButton, false);
+            document.getElementById(i.id).addEventListener('mousedown', addOpacity, false);
+            document.getElementById(i.id).addEventListener('mouseup', removeOpacity, false);
         }
     })
     let botonStart = document.querySelector('#btn-start');
@@ -129,9 +131,26 @@ function configureListeners() {
     botonStart.addEventListener('click', readySandClock, false);
 }
 
+function addOpacity() 
+{
+    let botonToIluminate = document.getElementById(computerGame[elementToPerform]);
+    botonToIluminate.classList.add('dim');
+    // console.log('addopacity');
+}
+
+function removeOpacity() 
+{
+    let botonToIluminate = document.getElementById(computerGame[elementToPerform]);
+    botonToIluminate.classList.remove('dim');
+    // console.log('removeopacity');
+}
+
 function readySandClock() {
     if (!gameInProgress)
     {
+        clearInterval(intervalGameOver);
+        resetColors();
+        //console.log('reset colors');
         btnStartCaption.disabled = true;
         intervalSandClock = setInterval(decreaseSandClock, 1000);
     }

@@ -24,6 +24,7 @@
   - After the game is over the words 'Game Over' are intermitently displayed in the center of the keyboard
 
 # 10/03/2023
+  - Added a timer at the beginning of a new game
   
   -- Credits Below
 

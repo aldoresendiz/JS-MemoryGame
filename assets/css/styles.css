@@ -52,10 +52,13 @@ div img {
   width:220px;
 }
 
-div img:hover {
-  /* transform: rotate(-2deg) scale(1.2);*/
-  opacity: var(--opacity); /*0.1555;*/
+
+/* transform: rotate(-2deg) scale(1.2);*/
+ /*0.1555;*/
+/*div img:hover {
+  opacity: var(--opacity);
 }
+*/
 
 .dim {
   opacity: var(--opacity); /*0.1555;*/
