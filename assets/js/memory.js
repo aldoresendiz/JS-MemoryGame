@@ -1,5 +1,7 @@
 ///// Define global variables
     // miscellaneous variables
+    let sandClock = 6;
+    let intervalSandClock = 0;
     let intervalGameOver = 0;
     let intervalUpdateTurns = 0;
     let checkComputerStep = 0;
@@ -89,7 +91,9 @@ function enterGameOverMode() {
 }
 
 function setDefaultValues() {
+    clearInterval(intervalSandClock);
     clearInterval(intervalGameOver);
+    sandClock = 6;
     computerStep = -1;
     userLevel = 1;
     userScore = 0;
@@ -121,7 +125,39 @@ function configureListeners() {
         }
     })
     let botonStart = document.querySelector('#btn-start');
-    botonStart.addEventListener('click', startStopGame, false);
+    /*botonStart.addEventListener('click', startStopGame, false);*/
+    botonStart.addEventListener('click', readySandClock, false);
+}
+
+function readySandClock() {
+    if (!gameInProgress)
+    {
+        btnStartCaption.disabled = true;
+        intervalSandClock = setInterval(decreaseSandClock, 1000);
+    }
+    else
+    {
+        startStopGame();
+    }
+}
+
+function decreaseSandClock() {
+    // console.log(sandClock);
+    if (!gameInProgress)
+    {
+        sandClock = sandClock - 1;
+        if (sandClock > 0)
+        {
+            let askUserToGetReady = document.getElementById('who-turn');
+            askUserToGetReady.textContent = `GET READY IN ${sandClock}!`;
+            playSpecificNote('pn2', 700);
+        }
+        else
+        {
+            btnStartCaption.disabled = false;
+            startStopGame();
+        }    
+    }
 }
 
 function startStopGame() {
@@ -264,6 +300,31 @@ function playButton()
     return x;
 }
 
+function playSpecificNote(whatNote, whatTempo)
+{
+    // console.log(whatNote, whatTempo);
+    whatNote =  whatNote === undefined ? 'pn1' : whatNote;
+    var context = new (window.AudioContext || window.webkitAudioContext)();
+    let myNote = [{note: whatNote, duration: 1}];
+    var tempo = whatTempo === undefined ? 100 : whatTempo; // beats per minute
+    var quarterNoteTime = 60 / tempo;
+    // console.log(whatNote, tempo);
+
+    var startTime = 0;
+    var endTime = startTime + myNote[0].duration * quarterNoteTime;
+    // console.log(myNote[0].note, startTime, myNote[0].duration, quarterNoteTime, endTime);
+
+    var oscillator = context.createOscillator();
+    oscillator.type = "sine";
+
+    var noteFrequency = getFrequency(myNote[0].note);
+    // console.log(noteFrequency);
+    oscillator.frequency.value = noteFrequency;
+    oscillator.connect(context.destination);
+    oscillator.start(context.currentTime + startTime);
+    oscillator.stop(context.currentTime + endTime);
+}
+
 function playSoundFromComputer() {
     var context = new (window.AudioContext || window.webkitAudioContext)();
     if (doReMiFaSoComputer.length === 0)
@@ -309,31 +370,33 @@ function playSoundFromComputer() {
       oscillator.stop(context.currentTime + endTime);
       doReMiFaSoComputer = [];
     });
-
-    function getFrequency(note) {
-      switch (note) {
-        case "pn1":
-        case "pn9":
-          return 261.63;
-        case "pn2":
-          return 293.66;
-        case "pn3":
-          return 329.63;
-        case "pn4":
-          return 349.23;
-        case "pn5":
-          return 392.00;
-        case "pn6":
-          return 440.00;
-        case "pn7":
-          return 493.88;
-        case "pn8":
-          return 523.25;
-        default:
-          return 0;
-      }
-    }
 }
+
+
+function getFrequency(note) {
+    switch (note) {
+      case "pn1":
+      case "pn9":
+        return 261.63;
+      case "pn2":
+        return 293.66;
+      case "pn3":
+        return 329.63;
+      case "pn4":
+        return 349.23;
+      case "pn5":
+        return 392.00;
+      case "pn6":
+        return 440.00;
+      case "pn7":
+        return 493.88;
+      case "pn8":
+        return 523.25;
+      default:
+        return 0;
+    }
+  }
+
 
 function playGameOver() {
     var context = new (window.AudioContext || window.webkitAudioContext)();

@@ -63,10 +63,13 @@ div img:hover {
 
 #who-turn, #game-level, #game-score {
   color: blue;
-  font-size: 3em;
+  /*font-size: 2em;*/
+}
+#who-turn {
+  font-size:3em;
 }
 
 #game-max-score, #game-max-level {
   color:navy;
-  font-size: 3em;
+  /*font-size: 2em;*/
 }
