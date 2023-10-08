@@ -25,8 +25,13 @@ h2 {
   display:inline-block;
   border:solid;
 }
+#level-description {
+  width:40%;
+  display:block;
+  border:solid;
+}
 
-#game-info, #who-turn {
+#game-info, #player-turn {
   display:inline-flexbox;
 }
 
@@ -52,27 +57,23 @@ div img {
   width:220px;
 }
 
-
-/* transform: rotate(-2deg) scale(1.2);*/
- /*0.1555;*/
-/*div img:hover {
-  opacity: var(--opacity);
-}
-*/
-
 .dim {
   opacity: var(--opacity); /*0.1555;*/
 }
 
-#who-turn, #game-level, #game-score {
+#player-turn, #game-level, #game-score {
   color: blue;
   /*font-size: 2em;*/
 }
-#who-turn {
+#player-turn {
   font-size:3em;
 }
 
-#game-max-score, #game-max-level {
+#game-best-score, #game-best-level {
   color:navy;
   /*font-size: 2em;*/
+}
+
+#extra-lives {
+  color: green;
 }
