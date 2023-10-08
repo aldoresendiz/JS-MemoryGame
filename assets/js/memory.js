@@ -67,16 +67,16 @@ let levelDefinition = [
 // Game Colors
 let buttonProperties = [
     './assets/colors/',
-    {Button: 1, Image: 'button-1-red.jpeg', Alt: 'Button 1 Red',},
-    {Button: 2, Image: 'button-2-yellow.jpeg', Alt: 'Button 2 Yellow',},
-    {Button: 3, Image: 'button-3-orange.jpeg', Alt: 'Button 3 Orange',},
-    {Button: 4, Image: 'button-4-green.jpeg', Alt: 'Button 4 Green',},
-    {Button: 5, Image: 'button-5-blue.jpeg', Alt: 'Button 5 Blue',},
-    {Button: 6, Image: 'button-6-lightblue.jpeg', Alt: 'Button 6 Light Blue',},
-    {Button: 7, Image: 'button-7-purple.jpeg', Alt: 'Button 7 Purple',},
-    {Button: 8, Image: 'button-8-lightgreen.jpeg', Alt: 'Button 8 Light Green',},
-    {Button: 9, Image: 'button-9-pink.jpeg', Alt: 'Button 9 Pink',},
-    {Button: 10, Image: 'game-over.jpeg', Alt: 'Button Game Over',},
+    {Button: 1, Image: 'btn1.jpeg', Alt: 'Button 1 Red',},
+    {Button: 2, Image: 'btn2.jpeg', Alt: 'Button 2 Yellow',},
+    {Button: 3, Image: 'btn3.jpeg', Alt: 'Button 3 Orange',},
+    {Button: 4, Image: 'btn4.jpeg', Alt: 'Button 4 Green',},
+    {Button: 5, Image: 'btn5.jpeg', Alt: 'Button 5 Blue',},
+    {Button: 6, Image: 'btn6.jpeg', Alt: 'Button 6 Light Blue',},
+    {Button: 7, Image: 'btn7.jpeg', Alt: 'Button 7 Purple',},
+    {Button: 8, Image: 'btn8.jpeg', Alt: 'Button 8 Light Green',},
+    {Button: 9, Image: 'btn9.jpeg', Alt: 'Button 9 Pink',},
+    {Button: 10, Image: 'btn9over.jpeg', Alt: 'Button Game Over',},
 ];
 // E: Define Global variables
 
