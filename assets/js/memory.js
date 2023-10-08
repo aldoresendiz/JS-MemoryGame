@@ -83,22 +83,22 @@ let buttonProperties = [
 // resetColors: This function resets every button to its original state and color
 function addOpacity(event)
 {
-console.log(event);
+// // console.log(event);
 if (event === undefined) return;
 if (gameInProgress)
 {
     /// let botonToIluminate = document.getElementById(currentGame[currentElement]);
     computerTurnsOnButton(event.target.id);
     // let botonToIluminate = document.getElementById(event.target.id);
-    // console.log(botonToIluminate);
+    // // // console.log(botonToIluminate);
     // botonToIluminate.classList.add('dim');    
 }
-// console.log('addopacity');
+// // // console.log('addopacity');
 }
 
 function announceNewLevel()
 {
-console.log('jugando musica para new level');
+// // console.log('jugando musica para new level');
 switch (computerStep)
 {
     case 90:
@@ -127,7 +127,7 @@ if (computerStep === 98)
 {
     computerStep = 1;
 }
-console.log('jugando musica para new level');
+// // console.log('jugando musica para new level');
 }
 
 function announceWinner()
@@ -142,10 +142,10 @@ function clickButton(event)
 if (!gameInProgress) return;
 if (currentPlayer === 1)
 {
-    // console.log('es mi turno');
+    // // // console.log('es mi turno');
     if (event === undefined) return;
     const botonClicked = event.target.id;
-    // console.log(botonClicked);
+    // // console.log(botonClicked);
     // userGame.push(botonClicked);
     if (botonClicked === currentGame[currentElement])
     {
@@ -153,7 +153,7 @@ if (currentPlayer === 1)
         playSpecificNote(botonClicked, 100, .5);
         removeOpacity();
         currentElement++;
-        console.log(currentElement, currentGame.length, currentGame);
+        // console.log(currentElement, currentGame.length, currentGame);
         if (currentElement > currentGame.length-1)
         {
             currentScore = currentGame.length;
@@ -187,10 +187,10 @@ function computerPlays()
 {
 if (currentPlayer === 0)
 {
-    // console.log(currentPlayer, 'level ', currentLevel, 'computerstep', computerStep);
+    // // console.log(currentPlayer, 'level ', currentLevel, 'computerstep', computerStep);
     if (computerStep === 0) // Check if we are in a new level
     {
-        console.log(currentGame.length, currentLevel);
+        // console.log(currentGame.length, currentLevel);
         let levelToPlay = Math.trunc(currentGame.length / levelDefinition[currentLevel-1].ExtraLives) + 1;
         // if (levelToPlay > levelDefinition.length)
         if (levelToPlay > maxLevel)
@@ -199,8 +199,8 @@ if (currentPlayer === 0)
             announceWinner();
             return;
         }
-        console.log('Formula: ', currentGame.length / levelDefinition[currentLevel-1].ExtraLives)
-        console.log('linea 355', 'level to play', levelToPlay);
+        // console.log('Formula: ', currentGame.length / levelDefinition[currentLevel-1].ExtraLives)
+        // console.log('linea 355', 'level to play', levelToPlay);
         if (levelToPlay > currentLevel)
         {
             // TODO: Announce new Level
@@ -208,7 +208,7 @@ if (currentPlayer === 0)
             // computerStep = 90; // Announce new level
             extraLives++;
             displayExtraLives();
-            console.log('Extra Lives ', extraLives);
+            // console.log('Extra Lives ', extraLives);
             computerStep = 1;
             currentLevel++;
         }
@@ -222,13 +222,13 @@ if (currentPlayer === 0)
         clearInterval(intervalAnnounceNewLevel);
         buttonByComputer = 'bn' + Math.trunc((Math.random() * 9) + 1); // Computer picks the next button to play
         computerStep = 2;
-        // console.log(buttonToPlayByComputer);
+        // // console.log(buttonToPlayByComputer);
     }
     if (computerStep === 2) /// Computer adds chosen button to its queue
     {
         currentGame.push(buttonByComputer); // Computer adds its pick to the queue of the current game
         computerStep = 3;
-        // console.log(computerGame);
+        // // console.log(computerGame);
     }
     if (computerStep === 3) /// Computer is to play the entire play
     {
@@ -241,12 +241,12 @@ if (currentPlayer === 0)
         //     botonToIluminate.classList.add('dim');
         // }
         // setTimeout(computerTurnsOnButton, 1000);
-        // // console.log('play sound for: ',elementToPerform);
+        // // // console.log('play sound for: ',elementToPerform);
         // playSoundFromComputer();
     }
     if (computerStep === 4) // computer has finished its turn and now gives control to the user
     {
-        console.log('computerStep 4');
+        // console.log('computerStep 4');
         clearInterval(intervalComputerIsPlaying);
         computerStep = 0;
         currentPlayer = 1;
@@ -262,7 +262,7 @@ if (currentPlayer === 0)
         //     computerStep = -1;
         //     currentPlayer = 1;
         //     elementToPerform = 0;
-        //     // console.log('cede el turno');
+        //     // // console.log('cede el turno');
         // }
     }
 }
@@ -270,7 +270,7 @@ if (currentPlayer === 0)
 
 function computerPlaysNextButton()
 {
-console.log('copmuter plays next button line 422');
+// console.log('copmuter plays next button line 422');
 if (computerStep === 10) // Computer highlights the button
 {
     computerStep = 11;
@@ -377,7 +377,7 @@ else
     displayTurn.textContent = '---';
     displayTurn.style.color = 'blue';
 }
-// console.log(currentPlayer);
+// // console.log(currentPlayer);
 }
 
 function enterGameOverMode()
@@ -443,7 +443,7 @@ currentPlayer = 0;
 
 function playSpecificNote(whatNote, whatTempo, whatDuration)
 {
-console.log('specific note:', whatNote, whatTempo, whatDuration)
+// console.log('specific note:', whatNote, whatTempo, whatDuration)
 whatNote =  whatNote === undefined ? 'bn1' : whatNote;
 var context = new (window.AudioContext || window.webkitAudioContext)();
 let myNote = [{note: whatNote, duration: whatDuration}];
@@ -469,7 +469,7 @@ if (gameInProgress)
     // let botonToIluminate = document.getElementById(currentGame[currentElement]);
     // botonToIluminate.classList.remove('dim');    
 }
-// console.log('removeopacity');
+// // console.log('removeopacity');
 }
 
 function resetColors() 
@@ -479,7 +479,7 @@ for (i = 1; i<=9; i++)
 {
     let btn = document.getElementById(`bn${i}`);
     btn.src = assetsFolder + buttonProperties[i].Image;
-    console.log(btn.src);
+    // console.log(btn.src);
     btn.alt = buttonProperties[i].Alt;
     if (btn.classList.contains('dim'))
     {
@@ -625,7 +625,7 @@ function userMakesMistake()
 {
 if (extraLives > 0)
 {
-    console.log('tocando specifica nota para game over');
+    // console.log('tocando specifica nota para game over');
     playSpecificNote('bn1', 100, 2);
     // playGameOver();
     extraLives--;
@@ -636,7 +636,7 @@ if (extraLives > 0)
 }
 else
 {
-    console.log('tocando specifica nota para game over');
+    // console.log('tocando specifica nota para game over');
     playSpecificNote('bn1', 100, 2);
     //playGameOver();
     startStopGame();
@@ -663,7 +663,7 @@ else
 //     // gameOver.removeAttribute('hidden');
 //     // gameOver.textContent = 'GAME OVER';
 //     //gameOver.style.zIndex = 1;
-//     // console.log('caminaste');
+//     // // console.log('caminaste');
 // }
 // else
 // {
@@ -675,14 +675,14 @@ else
 
 function confirmCheatMode(event) 
 {
-console.log(event.key);
+// console.log(event.key);
 let pressedKey = event.key;
 if (pressedKey === 'F1') //https://developer.mozilla.org/en-US/docs/Web/API/KeyboardEvent
 {
     event.preventDefault();
     cheaterMode = confirm('Do you really want to cheat????');
 }
-console.log('Cheater mode:',cheaterMode)
+// console.log('Cheater mode:',cheaterMode)
 }
 
 resetColors();
