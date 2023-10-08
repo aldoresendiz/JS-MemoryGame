@@ -1,6 +1,6 @@
 // S: Define Global variables
 let cheaterMode = false;
-let defaultSandClock = 4;
+let defaultSandClock = 6;
 let sandClock = defaultSandClock; // Seconds to start a new game
 let computerStep = 0; // 1:Pick a number and formats as 'pn#', 2: Add the button to the queue, 9: Announce new Level
 let maxLevel = 10;
