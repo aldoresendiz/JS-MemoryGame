@@ -66,7 +66,7 @@ let levelDefinition = [
 
 // Game Colors
 let buttonProperties = [
-    '../assets/colors/',
+    './assets/colors/',
     {Button: 1, Image: 'button-1-red.jpeg', Alt: 'Button 1 Red',},
     {Button: 2, Image: 'button-2-yellow.jpeg', Alt: 'Button 2 Yellow',},
     {Button: 3, Image: 'button-3-orange.jpeg', Alt: 'Button 3 Orange',},
@@ -479,6 +479,7 @@ for (i = 1; i<=9; i++)
 {
     let btn = document.getElementById(`bn${i}`);
     btn.src = assetsFolder + buttonProperties[i].Image;
+    console.log(btn.src);
     btn.alt = buttonProperties[i].Alt;
     if (btn.classList.contains('dim'))
     {
