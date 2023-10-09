@@ -1,7 +1,7 @@
 # Welcome to my Memory Game!
 
 Hi! This game is based on the popular game called 'Memory Game' from the 'Fabulous Fred' device from Megacorp
-Fabulous Fred was a very popular toy in the 80's. Its interfase was so simple and colored. Without the technology we have today, it kept us busy playing several games including 'Memory Game' for hours. You can find more info here...
+Fabulous Fred was a very popular toy in the 80's. Its interfase was so simple and colored. Without the technology we have today, it kept us busy playing several games including 'Memory Game' for hours. You can find more info by clicking =>
 [Mego Corp Wiki](https://commons.wikimedia.org/wiki/File:Fabulous_Fred_by_Mego_Corporation,_Made_In_Japan,_Copyright_1980_(Electronic_Handheld_Game)_Choice_Of_9_Games.jpg)
 
 ## How to Play the game
@@ -19,15 +19,15 @@ The game consists of a keyboard with nine buttons 1-9 numbered (not shown) clock
 ## Levels
 The game consists of 10 levels with level 9 being the last playable level and level 10 being the 'Winner' level. Take it as an 'Exclusive' Club for winners only. The computer displays the current level in the bottom of the page and will inform the user in what level they are playing. Levels are as follows:
 
-Level:  1, Description:  '💤 Easy 💤'
-Level:  2, Description:  '😊 Beginner 😊'
-Level:  3, Description:  '😁 Intermediate 😁'
-Level:  4, Description:  '😎 Expert 😎'
-Level:  5, Description:  '🧐 Senior 🧐'
-Level:  6, Description:  '😨 I N S A N E!! 😨'
-Level:  7, Description:  '😱 C R A Z Y!! 😱'
-Level:  8, Description:  '🤓 EINSTEIN! 🤓'
-Level:  9, Description:  '🚀 OUT OF THIS WORLD!'
+- Level:  1, Description:  '💤 Easy 💤'
+- Level:  2, Description:  '😊 Beginner 😊'
+- Level:  3, Description:  '😁 Intermediate 😁'
+- Level:  4, Description:  '😎 Expert 😎'
+- Level:  5, Description:  '🧐 Senior 🧐'
+- Level:  6, Description:  '😨 I N S A N E!! 😨'
+- Level:  7, Description:  '😱 C R A Z Y!! 😱'
+- Level:  8, Description:  '🤓 EINSTEIN! 🤓'
+- Level:  9, Description:  '🚀 OUT OF THIS WORLD!'
 
 ## Progress and Extra Lives
 Since every level gets more difficult every time by the computer speeding its turn and displaying the colors for less than a second, an extra life is granted every time a new level starts.
@@ -49,11 +49,11 @@ All images are copyright by the respective owners. Credits below
 
 Credits for Sounds, animations and music from the following websites
 
-[Kirupa - Playing a randonly Generated Sound](https://www.kirupa.com/html5/randomly_generated_sound_web_audio_api.htm)
-[Enton Biba - Play DoReMiFaSo](https://www.entonbiba.com/codes/play-do-re-mi-fa-so-song-with-web-audio)
+- [Kirupa - Playing a randonly Generated Sound](https://www.kirupa.com/html5/randomly_generated_sound_web_audio_api.htm)
+- [Enton Biba - Play DoReMiFaSo](https://www.entonbiba.com/codes/play-do-re-mi-fa-so-song-with-web-audio)
 
 Grid taken from Activity 8 from the course JavaScript
-[GameOver Image](Game Over image taken from https://pngimg.com/image/83375)
+[GameOver Image](https://pngimg.com/image/83375)
 
 Documentation to the JavaScript language from the mozilla developers website and W3schools
 https://developer.mozilla.org/en-US/docs/Web/HTML
@@ -69,4 +69,3 @@ https://www.w3schools.com/css/css3_variables_javascript.asp
 - 10/03/2023. Added a timer at the beginning of a new game
 - 10/05/2023. Added smiley faces per level plus other features as increasing game speed as the game progresses.
 - 10/06/2023. User is awarded an extra life at the beginning of a new level.
-- 
