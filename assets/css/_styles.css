@@ -11,73 +11,70 @@
   https://developer.mozilla.org/en-US/docs/Web/CSS
   https://developer.mozilla.org/en-US/docs/Web/JavaScript
   https://www.w3schools.com/css/css3_variables_javascript.asp
-  This is a version writen in scss
 */
-@import url("https://fonts.googleapis.com/css2?family=Fuggles&family=Newsreader:opsz,wght@6..72,200&display=swap");
-@import url("https://fonts.googleapis.com/css2?family=Dela+Gothic+One&family=Fuggles&family=Newsreader:opsz,wght@6..72,200&display=swap");
+
+@import url('https://fonts.googleapis.com/css2?family=Fuggles&family=Newsreader:opsz,wght@6..72,200&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Dela+Gothic+One&family=Fuggles&family=Newsreader:opsz,wght@6..72,200&display=swap');
+
 :root {
   --opacity: 0.1555;
 }
 
 h2 {
-  width: 40%;
-  display: inline-block;
-  border: solid;
+  width:40%;
+  display:inline-block;
+  border:solid;
 }
 
 #level-description {
-  width: 40%;
-  display: block;
-  border: solid;
+  width:40%;
+  display:block;
+  border:solid;
 }
 
 #game-info, #player-turn {
-  display: inline-flexbox;
+  display:inline-flexbox;
 }
 
 #game-info {
-  font-family: "Fuggles", cursive;
-  font-family: "Newsreader", serif;
+  font-family: 'Fuggles', cursive;
+  font-family: 'Newsreader', serif;
   font-size: 8em;
 }
 
 #btn-start {
-  font-family: "Dela Gothic One", cursive;
+  font-family: 'Dela Gothic One', cursive;
   font-size: 4em;
 }
 
 body {
   display: grid;
   place-items: center;
-  background-color: beige;
+  background-color:beige;
 }
 
 div img {
-  height: 200px;
-  width: 220px;
+  height:200px;
+  width:220px;
 }
 
 .dim {
-  --opacity: 0.1555;
-  /*0.1555;*/
+  opacity: var(--opacity); /*0.1555;*/
 }
 
 #player-turn, #game-level, #game-score {
   color: blue;
   /*font-size: 2em;*/
 }
-
 #player-turn {
-  font-size: 3em;
+  font-size:3em;
 }
 
 #game-best-score, #game-best-level {
-  color: navy;
+  color:navy;
   /*font-size: 2em;*/
 }
 
 #extra-lives {
   color: green;
 }
-
-/*# sourceMappingURL=styles.css.map */
