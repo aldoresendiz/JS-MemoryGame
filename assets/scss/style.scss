@@ -1,0 +1,141 @@
+/* 
+  All images are protected and copyright by the respective owners. Credits below
+  https://commons.wikimedia.org/wiki/File:Fabulous_Fred_by_Mego_Corporation,_Made_In_Japan,_Copyright_1980_%28Electronic_Handheld_Game%29_Choice_Of_9_Games.jpg
+  Credits for Sounds and animation from the following websites
+  https://www.kirupa.com/html5/randomly_generated_sound_web_audio_api.htm
+  https://www.entonbiba.com/codes/play-do-re-mi-fa-so-song-with-web-audio
+  Grid taken from Activity 8 from the course JavaScript
+  Game Over image taken from https://pngimg.com/image/83375
+  Colors and references from the mozilla developers website and W3schools
+  https://developer.mozilla.org/en-US/docs/Web/HTML
+  https://developer.mozilla.org/en-US/docs/Web/CSS
+  https://developer.mozilla.org/en-US/docs/Web/JavaScript
+  https://www.w3schools.com/css/css3_variables_javascript.asp
+  This is a version writen in scss
+*/
+
+@use 'sass:math';
+@use 'sass:string';
+
+$general-width: 40%;
+$border-solid: solid;
+$font-size: 8em;
+$primary-color: beige;
+$default-height: 200px;
+$opacity-default: 0;
+$fuggles-family: 'https://fonts.googleapis.com/css2?family=Fuggles&family=Newsreader:opsz,wght@6..72,200&display=swap';
+$dela-family: 'https://fonts.googleapis.com/css2?family=Dela+Gothic+One&family=Fuggles&family=Newsreader:opsz,wght@6..72,200&display=swap';
+
+@import url($fuggles-family);
+@import url($dela-family);
+
+
+@mixin opacity($xopacity: 0) {
+    @if ($xopacity == 0) {
+        --opacity: 0.1555;
+    }
+    @else {
+        --opacity: $xopacity;
+    }
+}
+
+@mixin measures($height: $default-height) {
+    height: $height;
+    width: $height + 20;
+}
+
+@mixin playwithwarn() {
+    @warn "This is just a warning for testing purposes!";
+}
+
+@mixin comments() {
+    @debug string.quote("This is a comment")
+}
+
+@function display($selector: h2) {
+    @if ($selector == h2) {
+        @return (inline-block);
+    }
+    @else if($selector == level) {
+        @return (block);
+    }
+    @else if($selector == flexbox) {
+        @return (inline-flexbox);
+    }
+    @else if($selector == body) {
+        @return (grid);
+    }
+}
+
+@function justforfun($bool: true) {
+    @if (1==1) {
+        @debug 'There is nothing to see here. Just a debug for testing purposes';
+    }
+    @return "This function does not do anything just here for testing purposes";
+}
+
+@include comments();
+
+:root {
+    @include opacity();
+    @include playwithwarn();
+    @warn justforfun();
+  }
+  
+  h2 {
+    width:$general-width;
+    display:display();
+    border:$border-solid;
+  }
+
+  #level-description {
+    width:$general-width;
+    display:display(level);
+    border:$border-solid;
+  }
+  
+  #game-info, #player-turn {
+    display:display(flexbox);
+  }
+  
+  #game-info {
+    font-family: 'Fuggles', cursive;
+    font-family: 'Newsreader', serif;
+    font-size: $font-size;
+  }
+  
+  #btn-start {
+    font-family: 'Dela Gothic One', cursive;
+    font-size: math.div($font-size,2);
+  }
+  
+  body {
+    display: display(body);
+    place-items: center;
+    background-color:$primary-color;
+  }
+  
+  div img {
+    @include measures();
+  }
+  
+  .dim {
+    @include opacity(); /*0.1555;*/
+  }
+  
+  #player-turn, #game-level, #game-score {
+    color: blue;
+    /*font-size: 2em;*/
+  }
+  #player-turn {
+    font-size: $font-size - 5;
+  }
+  
+  #game-best-score, #game-best-level {
+    color:navy;
+    /*font-size: 2em;*/
+  }
+  
+  #extra-lives {
+    color: green;
+  }
